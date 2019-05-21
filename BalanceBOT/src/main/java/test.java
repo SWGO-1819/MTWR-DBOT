@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.managers.GuildController;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import net.dv8tion.jda.api.entities.*;
 public class test extends ListenerAdapter{
@@ -22,43 +23,42 @@ public class test extends ListenerAdapter{
 		// TODO Auto-generated method stub
 		User user=event.getAuthor();
 		if(user.isBot())return;
-		TextChannel TC = event.getJDA().getTextChannelById("571683345449353242");//Ã¤ÆÃID
+		TextChannel TC = event.getJDA().getTextChannelById(event.getTextChannel().getId());//ì±„íŒ…ID
 		Guild setGuild=event.getGuild();
 		GuildController GC = new GuildController(setGuild);
-		Member mm=setGuild.getMember(user);//¸â¹ö
-		String message = event.getMessage().getContentRaw();//¸Ş¼¼Áö´ãÀ½
+		Member mm=setGuild.getMember(user);//ë©¤ë²„
+		String message = event.getMessage().getContentRaw();//ë©”ì„¸ì§€ë‹´ìŒ
 		
-		
-		String[] command = new String[4];
-		command[0]="!¿¹Âù";
-		command[1]="!ÈçÀûÁö¿ö Ã¤ÆÃID";
-		command[2]="!Á¦ºñ»Ì±â »ç¶÷ÀÌ¸§,»ç¶÷ÀÌ¸§ ";
-		command[3]="!ÀÌ¸§:¾´ »ç¿ëÀÚÀÇ ÀÌ¸§À» º¸¿©Áİ´Ï´Ù";
+		StringBuffer command = new StringBuffer();
+		command.append("!í”ì ì§€ì›Œ ì±„íŒ…ID");
+		command.append("!ì œë¹„ë½‘ê¸° ì‚¬ëŒì´ë¦„,ì‚¬ëŒì´ë¦„ ");
+		command.append("!ì´ë¦„:ì“´ ì‚¬ìš©ìì˜ ì´ë¦„ì„ ë³´ì—¬ì¤ë‹ˆë‹¤");
+		command.append("!ìŒì†Œê±°/ìŒì†Œê±°í•´ì œ");
 		if(message.equals("!help")) {
-			TC.sendMessage("µµ¿ò¸»:\n").queue();
-			for(int i=0;i<command.length;i++) {
-				TC.sendMessage(command[i]+"\n").queue();
+			TC.sendMessage("ë„ì›€ë§:\n").queue();
+			for(int i=0;i<5;i++) {
+				TC.sendMessage("!"+command.toString().split("!")[i]+"\n").queue();
 			}
 		}
-		else if(message.equals("!¿¹Âù")) {
-			TC.sendMessage("¹ßÅ°¸®ÀÔ´Ï´Ù").queue();
-		}
-		else if(message.split(" ")[0].equals("!ÈçÀûÁö¿ö")) {
+		/*else if(message.equals("!ì˜ˆì°¬")) {
+			TC.sendMessage("ë°œí‚¤ë¦¬ì…ë‹ˆë‹¤").queue();
+		}*/
+		else if(message.split(" ")[0].equals("!í”ì ì§€ì›Œ")) {
 			String deleteMS = message.split(" ")[1];
 			//MessageHistory mh = new MessageHistory(TC);
 			//String test = "gg";
 			//Message messageD=event.getMessage();
 			//List<Message> msgs = mh.getRetrievedHistory();
-			//System.out.println("Ãâ·Â"+messageD.toString());
+			//System.out.println("ì¶œë ¥"+messageD.toString());
 			//TC.deleteMessages(messageD).complete();
 			
 			TC.deleteMessageById(deleteMS).complete();
 		}
-		else if(message.split(" ")[0].equals("!Á¦ºñ»Ì±â")){
-			if(event.getMessage().getMember().getUser().getName().toString().equals("ÀÌ¿¹Âù/19")) {
-        		TC.sendMessage("°íÀå³µ½À´Ï´Ù.").queue();
+		else if(message.split(" ")[0].equals("!ì œë¹„ë½‘ê¸°")){
+			/*if(event.getMessage().getMember().getUser().getName().toString().equals("ì´ì˜ˆì°¬/19")) {
+        		TC.sendMessage("ê³ ì¥ë‚¬ìŠµë‹ˆë‹¤.").queue();
         		event.getJDA().removeEventListener(this);
-        	}
+        	}*/
 			String member = message.split(" ")[1];
 			String[] members = member.split(",");
 			int randomnum = (int)(Math.random()*members.length-1);
@@ -68,21 +68,22 @@ public class test extends ListenerAdapter{
             TC.sendMessage("Understood!").queue();
             event.getJDA().removeEventListener(this); // stop listening
         }
-		else if (message.equals("!ÀÌ¸§")) {
-        	if(event.getMessage().getMember().getUser().getName().toString().equals("ÀÌ¿¹Âù/19")) {
-        		TC.sendMessage("¹ßÅ°¸®ÀÔ´Ï´Ù").queue();
-        	}else if(event.getMessage().getMember().getUser().getName().toString().equals("°í½Â¿ø")) {
-        		TC.sendMessage("°í½Â¿øÀº Å»¸ğÀÔ´Ï´Ù").queue();
+		/*else if (message.equals("!ì´ë¦„")) {
+        	if(event.getMessage().getMember().getUser().getName().toString().equals("ì´ì˜ˆì°¬/19")) {
+        		TC.sendMessage("ë°œí‚¤ë¦¬ì…ë‹ˆë‹¤").queue();
+        	}else if(event.getMessage().getMember().getUser().getName().toString().equals("ê³ ìŠ¹ì›")) {
+        		TC.sendMessage("ê³ ìŠ¹ì›ì€ íƒˆëª¨ì…ë‹ˆë‹¤").queue();
         	}else {
-        		TC.sendMessage(event.getMessage().getMember().getUser().getName().toString()+"ÀÔ´Ï´Ù").queue();
+        		TC.sendMessage(event.getMessage().getMember().getUser().getName().toString()+"ì…ë‹ˆë‹¤").queue();
         	}
-        }
-		/*else if(message.equals(message)&&event.getMessage().getMember().getUser().getName().toString().equals("¾È¼ºÁÖ")) {
-        	TC.sendMessage("»ç±â²ÛÀÔ´Ï´Ù").queue();
         }*/
-        else if(message.split(" ")[0].equals("!À½¼Ò°Å")) {
+		/*else if(message.equals(message)&&event.getMessage().getMember().getUser().getName().toString().equals("ì•ˆì„±ì£¼")) {
+        	TC.sendMessage("ì‚¬ê¸°ê¾¼ì…ë‹ˆë‹¤").queue();
+        }*/
+        else if(message.split(" ")[0].equals("!ìŒì†Œê±°")) {
         	String muteUser = message.split(" ")[1];
-        	VoiceChannel VC = setGuild.getVoiceChannelsByName("ÀÏ¹İ",true).get(0);
+        	String voiceChat = message.split(" ")[2];
+        	VoiceChannel VC = setGuild.getVoiceChannelsByName(voiceChat,true).get(0);
         	List<Member> member = VC.getMembers();
         	int i=0;
         	while(i<member.size()) {
@@ -92,22 +93,26 @@ public class test extends ListenerAdapter{
         		i++;
         	}
         	GC.setMute(member.get(i), true).queue();
-        }else if(message.split(" ")[0].equals("!À½¼Ò°ÅÇØÁ¦")) {
+        }
+        else if(message.split(" ")[0].equals("!ìŒì†Œê±°í•´ì œ")) {
         	String muteUser = message.split(" ")[1];
-        	VoiceChannel VC = setGuild.getVoiceChannelsByName("ÀÏ¹İ",true).get(0);
+        	String voiceChat = message.split(" ")[2];
+        	VoiceChannel VC = setGuild.getVoiceChannelsByName(voiceChat,true).get(0);
         	List<Member> member = VC.getMembers();
         	int i=0;
         	while(i<member.size()) {
         		if(member.get(i).getUser().getName().toString().equals(muteUser)) {
         			break;
         		}
-        		
         		i++;
         	}
         	GC.setMute(member.get(i), false).queue();
         }
+        /*else if(message.matches(".*ë¼ë¦¬.*")||message.matches(".*ê³ ì¥.*")||message.matches(".*ê¸°ë¦¬.*")) {
+        	TC.addReactionById(event.getMessage().getId(), "U+1F6A8").queue();
+        }*/
         
-		//Ã¤³Î¿Å±â±â
+		//ì±„ë„ì˜®ê¸°ê¸°
 		/*Guild setGuild=event.getGuild();
 		GuildController GC = new GuildController(setGuild);
 		Member mm=setGuild.getMember(user);

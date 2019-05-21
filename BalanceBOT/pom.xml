@@ -18,6 +18,5 @@
 	    <artifactId>JDA</artifactId>
 	    <version>4.ALPHA.0_79</version>
 	</dependency>
-
   </dependencies>
 </project>
